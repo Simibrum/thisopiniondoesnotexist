@@ -1,2 +1,2 @@
-# flask-website
-A skeleton for a Flask website.
+# FastAPI-website
+A skeleton for a FastAPI website.

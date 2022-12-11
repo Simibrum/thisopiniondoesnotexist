@@ -36,3 +36,8 @@ async def test_upload_post(client: AsyncClient):
     post_id = data["id"]
     post_obj = await Post.get(id=post_id)
     assert post_obj.id == post_id
+    # Test getting post
+    response = await client.get(f"/post/{post_id}")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["title"] == "February Test"

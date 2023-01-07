@@ -29,6 +29,7 @@ async def create_post(post: PostIn_Pydantic):
 async def get_post(post_id: int):
     return await Post_Pydantic.from_queryset_single(Post.get(id=post_id))
 
+# Configure tortoise-orm to use the app's DB config
 register_tortoise(
     app,
     db_url=DB_URL,

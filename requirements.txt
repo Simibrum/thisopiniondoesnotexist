@@ -10,6 +10,7 @@ google-cloud-bigquery==3.4.1
 openai==0.26.0
 pandas==1.5.2
 db-dtypes==1.0.5
+stability-sdk==0.3.1
 
 # dev
 pytest==7.2.0

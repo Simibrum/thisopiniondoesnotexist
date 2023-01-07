@@ -39,4 +39,8 @@ async def client():
     await Tortoise.close_connections()
 
 
+TEST_TRENDS = [
+    'Greta Thunberg', 'Liverpool', 'Pope', 'West Ham vs Brentford', 'Newcastle vs Leeds United',
+    'Ronaldo', 'Happy New Year 2023']
+
 

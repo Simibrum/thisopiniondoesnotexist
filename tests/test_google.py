@@ -16,7 +16,7 @@ def google_trends():
     return google_trends
 
 
-def test_google_trends(google_trends, mocker):
+def test_google_trends_mock(google_trends, mocker):
     """Test getting Google Trend data from the BigQuery API."""
     # Get the current file's directory
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -33,3 +33,10 @@ def test_google_trends(google_trends, mocker):
     trending_topics = google_trends.get_trending_topics()
     assert trending_topics == test_json
 
+
+def test_google_trends(google_trends):
+    """Test getting Google Trend data from the BigQuery API."""
+    # Call the get_trending_topics method
+    trending_topics = google_trends.get_trending_topics()
+    assert trending_topics
+    assert isinstance(trending_topics, dict)

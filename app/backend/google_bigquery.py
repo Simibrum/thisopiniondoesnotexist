@@ -3,6 +3,7 @@ import os
 
 from google.cloud import bigquery
 from google.oauth2 import service_account
+import pandas as pd
 from app.utils import load_env_vars
 
 KEY_PATH = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
@@ -54,4 +55,8 @@ class GoogleTrends:
     def get_trending_topics(self):
         """Get the trending topics."""
         query_job = self.client.query(self.trend_query)
-        return query_job.result()
+        results = query_job.result()
+        df = results.to_dataframe()
+        # Convert the dataframe to a dictionary
+        df_dict = df.to_dict()
+        return df_dict

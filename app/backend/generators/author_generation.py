@@ -1,5 +1,6 @@
 """Functions and classes to generate post authors."""
 from typing import List, Tuple
+from app.logger import logger
 from app.backend.gpt import TextGenerator
 from app.models import Author
 
@@ -64,16 +65,26 @@ def generate_photo_desc(name: str, age: int, gender: str) -> str:
 
 async def populate_authors(num_authors: int = 10):
     """Populate the database with a set of authors."""
+    logger.info(f"Populating {num_authors} authors...")
+    logger.info("Generating author stats...")
     authors = generate_authors(num_authors)
+    logger.info("Generating author bios...")
     for author in authors:
-        bio = generate_bio(*author)
-        photo_desc = generate_photo_desc(*author)
         name, age, gender = author
-        author = await Author.create(
+        logger.info(f"Generating bio for {name}...")
+        bio = generate_bio(*author)
+        logger.info(f"Generating photo description for {name}...")
+        photo_desc = generate_photo_desc(*author)
+        db_author = await Author.create(
             name=name,
             age=age,
             gender=gender,
             bio=bio,
             photo_description=photo_desc
         )
-        await author.save()
+        logger.info(f"Created author {db_author.name} with id {db_author.id}")
+        await db_author.save()
+        logger.info("Saved author!")
+    logger.info("Done!")
+    return True
+

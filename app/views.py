@@ -1,10 +1,10 @@
 from fastapi import Request
 from fastapi.responses import HTMLResponse
-from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
+from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise, Tortoise
 
 from app import app, templates
 from app.db import DB_URL, MODEL_MODULE
-from app.models.data_models import Post, Post_Pydantic, PostIn_Pydantic
+from app.models.post import Post, Post_Pydantic, PostIn_Pydantic
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -29,6 +29,9 @@ async def create_post(post: PostIn_Pydantic):
 async def get_post(post_id: int):
     return await Post_Pydantic.from_queryset_single(Post.get(id=post_id))
 
+
+# Initialise models
+# Tortoise.init_models(["app.models"], "models")
 # Configure tortoise-orm to use the app's DB config
 register_tortoise(
     app,

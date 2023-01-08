@@ -4,7 +4,7 @@ from httpx import AsyncClient
 from fastapi.testclient import TestClient
 import pytest
 from app import app
-from app.models.data_models import Post
+from app.models import Post
 
 client = TestClient(app)
 
@@ -21,6 +21,7 @@ def test_read_root():
 @pytest.mark.anyio
 async def test_upload_post(client: AsyncClient):
     """Test posting post data to the database."""
+    assert client
     post_data = {
         "day": 1,
         "month": 2,

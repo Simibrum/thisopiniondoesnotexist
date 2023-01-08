@@ -18,6 +18,8 @@ def twitter_trends():
     return twitter_trends
 
 
+"""
+@pytest.mark.skip(reason="No Twitter Trends support yet in V2 of the API")
 def test_get_trending_topics(twitter_trends):
     # Get the trending topics for "Bath"
     trends = twitter_trends.get_trending_topics("Bath")
@@ -27,4 +29,4 @@ def test_get_trending_topics(twitter_trends):
 
     # Assert that the list of trends contains only strings
     assert all(isinstance(trend, str) for trend in trends)
-
+"""

@@ -24,6 +24,6 @@ def test_get_images(image_client):
         assert img.size == (128, 128)
         assert img.format == "PNG"
         assert img.getpixel((0, 0)) != (0, 0, 0)
-        img.show()
+        # img.show()
 
 

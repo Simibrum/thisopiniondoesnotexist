@@ -1,7 +1,7 @@
 """Command line interface functions for the app."""
 import click
 import asyncio
-# from app import app
+from tortoise import Tortoise
 from app.logger import logger
 from app.db.init_db import init
 from app.backend.generators.author_generation import populate_authors
@@ -40,6 +40,7 @@ def add_authors(num_authors: int = 10):
     logger.info("Adding authors from command line...")
     asyncio.run(populate_authors(num_authors))
     logger.info("Done!")
+    asyncio.run(Tortoise.close_connections())
 
 
 cli.add_command(test)

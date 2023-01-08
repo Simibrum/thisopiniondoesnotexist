@@ -12,6 +12,17 @@ uvicorn app:app --reload
 
 If the database does not exist, it will be created automatically.
 
+## Adding Authors
+
+You can add authors to the database by running the following command:
+
+```bash
+python -m app.cli add-authors --num_authors 1
+```
+
+The variable `--num-authors` is the number of authors to add to the database. 
+It defaults to 10 if not supplied.
+
 Resources:
 * [FastAPI](https://fastapi.tiangolo.com/)
 * https://testdriven.io/blog/fastapi-crud/

@@ -1,0 +1,17 @@
+{% extends "generic_page.html" %}
+
+# https://stackoverflow.com/questions/42388989/bootstrap-center-vertical-and-horizontal-alignment
+{% block content %}
+    <div class="row min-vh-100 justify-content-center align-items-center">
+        <div class="col-lg-6 col-sm-12">
+            <h1>{{author.name}}</h1>
+            <p><em>{{author.age}}</em> - <em>{{author.gender}}</em></p>
+            {% for paragraph in author.bio.split('\n\n') %}
+            <p>{{ paragraph }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <img src="..." class="img-fluid" alt="Responsive image">
+        </div>
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise, Torto
 
 from app import app, templates
 
-from app.models.post import Post, Post_Pydantic, PostIn_Pydantic
+from app.models import Post, Post_Pydantic, PostIn_Pydantic, Author, Author_Pydantic
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -30,4 +30,19 @@ async def get_post(post_id: int):
     return await Post_Pydantic.from_queryset_single(Post.get(id=post_id))
 
 
+@app.get(
+    "/author/{author_id}", response_model=Author_Pydantic, responses={404: {"model": HTTPNotFoundError}}
+)
+async def get_author(author_id: int):
+    return await Author_Pydantic.from_queryset_single(Author.get(id=author_id))
 
+
+@app.get(
+    "/html/author/{author_id}", response_class=HTMLResponse, responses={404: {"model": HTTPNotFoundError}}
+)
+async def get_author(request: Request, author_id: int):
+    author = await Author_Pydantic.from_queryset_single(Author.get(id=author_id))
+    return templates.TemplateResponse(
+        "author.html",
+        {"request": request, "author": author}
+    )

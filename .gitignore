@@ -132,3 +132,5 @@ dmypy.json
 .idea/
 /app/db/data/db.sqlite3-shm
 /app/db/data/db.sqlite3-wal
+/migrations/
+/pyproject.toml

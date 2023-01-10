@@ -26,7 +26,10 @@ photo_description_generator_prompt = f"""\
 You are given the information on a famous opinion writers for national newspaper:
 {{}}, {{}}, {{}}
 
-Write a 100 word alt text description of a photo of this person that can be used as a generative image prompt.
+Write an 80 word alt text description of a photo of this person that can be used as a generative image prompt. 
+Use note-like language with specific points.
+
+Alt text: 
 """
 
 

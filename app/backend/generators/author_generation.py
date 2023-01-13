@@ -2,7 +2,8 @@
 from typing import List, Tuple
 from app.logger import logger
 from app.backend.gpt import TextGenerator
-from app.models import Author
+from app.models import Author, Image
+from app.backend.generators.image_generation import generate_image
 
 initial_stats_prompt = f"""\
 Generate a table with the following information: name, age, gender 
@@ -88,6 +89,21 @@ async def populate_authors(num_authors: int = 10):
         logger.info(f"Created author {db_author.name} with id {db_author.id}")
         await db_author.save()
         logger.info("Saved author!")
+        logger.info("Generating author photo...")
+        image_binary = generate_image(photo_desc)
+        # Create image record
+        db_image = await Image.create(
+            name=f"{name} photo",
+            image=image_binary,
+            description=photo_desc,
+            caption=f"Photo of {name}",
+            width=512,
+            height=512
+        )
+        await db_image.save()
+        logger.info(f"Created image {db_image.name} with id {db_image.id}")
+        # Link image to author
+        db_author.photo = db_image
+        await db_author.save()
     logger.info("Done!")
     return True
-

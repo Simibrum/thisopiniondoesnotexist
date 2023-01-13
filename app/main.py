@@ -11,3 +11,5 @@ register_tortoise(
     config=TORTOISE_ORM,
     generate_schemas=False  # Creates the tables if they do not exist
 )
+
+

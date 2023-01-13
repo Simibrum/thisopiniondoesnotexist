@@ -10,8 +10,15 @@
             <p>{{ paragraph }}</p>
             {% endfor %}
         </div>
+        {% if image %}
         <div class="col-lg-6 col-sm-12">
-            <img src="..." class="img-fluid" alt="Responsive image">
+            <figure class="figure">
+                <img src="data:image/png;base64, {{ image.image|base64_encode }}"
+                     class="figure-img img-fluid rounded" alt="{{ author.photo_description }}" >
+                <figcaption class="figure-caption text-center">{{ image.caption }}</figcaption>
+            </figure>
+
         </div>
+        {% endif %}
     </div>
 {% endblock %}

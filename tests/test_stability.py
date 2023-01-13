@@ -27,3 +27,9 @@ def test_get_images(image_client):
         # img.show()
 
 
+def test_image_binary(image_client):
+    # Get a set of test images
+    binary = image_client.generate_image_binary(
+        "A test image with some test", width=128, height=128)
+    assert binary
+    assert isinstance(binary, bytes)

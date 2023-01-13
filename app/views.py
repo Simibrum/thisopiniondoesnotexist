@@ -1,10 +1,12 @@
+import base64
 from fastapi import Request
 from fastapi.responses import HTMLResponse
-from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise, Tortoise
+from tortoise.contrib.fastapi import HTTPNotFoundError, DoesNotExist
 
 from app import app, templates
 
-from app.models import Post, Post_Pydantic, PostIn_Pydantic, Author, Author_Pydantic
+from app.models import Post, Post_Pydantic, PostIn_Pydantic, Author, Author_Pydantic, \
+    Image_Pydantic
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -41,8 +43,20 @@ async def get_author(author_id: int):
     "/html/author/{author_id}", response_class=HTMLResponse, responses={404: {"model": HTTPNotFoundError}}
 )
 async def get_author(request: Request, author_id: int):
-    author = await Author_Pydantic.from_queryset_single(Author.get(id=author_id))
+    try:
+        db_author = await Author.get(id=author_id)
+    except DoesNotExist:
+        return templates.TemplateResponse(
+            "404.html",
+            {"request": request, "message": f"Author with id {author_id} not found"}
+        )
+    db_image = await db_author.photo
+    author = await Author_Pydantic.from_tortoise_orm(db_author)
+    if db_image:
+        image = await Image_Pydantic.from_tortoise_orm(db_image)
+    else:
+        image = None
     return templates.TemplateResponse(
         "author.html",
-        {"request": request, "author": author}
+        {"request": request, "author": author, "image": image}
     )

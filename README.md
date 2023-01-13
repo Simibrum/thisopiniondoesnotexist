@@ -4,10 +4,37 @@ Using generative API to produce content that does not exist.
 
 ## Initialising the Project
 
+Create a `.env` file in the root directory of the project. The file should contain the following:
+
+```
+# Twitter
+TWITTER_KEY=[YOUR KEY]
+TWITTER_SECRET=[YOUR SECRET]
+TWITTER_BEARER=[YOUR BEARER]
+TWITTER_ACCESS_TOKEN=[YOUR ACCESS TOKEN]
+TWITTER_TOKEN_SECRET=[YOUR TOKEN SECRET]
+
+# Google Cloud BigQuery - set path for .json service account key
+GOOGLE_APPLICATION_CREDENTIALS=[PATH TO .json FILE]
+
+# OpenAI
+OPENAI_API_KEY=[YOUR API KEY]
+
+# Stability AI / DreamStudio
+STABILITY_KEY=[YOUR KEY]
+```
+
 Aerich is used to handle database migrations. Run the code below to initialise. 
 ```bash
 aerich init -t app.db.config.TORTOISE_ORM
+
 aerich init-db
+```
+
+Then after making any changes to the models run the following to generate a migration:
+```bash
+aerich migrate --name "migration name"
+aerich upgrade
 ```
 
 ## Running the project
@@ -15,7 +42,7 @@ aerich init-db
 You can use uvicorn to run the project:
 
 ```bash
-uvicorn app:app --reload
+uvicorn app.main:app --reload
 ```
 
 If the database does not exist, it will be created automatically.

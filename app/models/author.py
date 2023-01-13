@@ -18,6 +18,8 @@ class Author(Model):
     bio = fields.TextField()
     # Author photo description
     photo_description = fields.TextField()
+    # Author photo linked record
+    photo = fields.ForeignKeyField("models.Image", null=True)
 
     class Meta:
         """Meta class."""
@@ -28,4 +30,4 @@ class Author(Model):
         return self.name
 
 
-Author_Pydantic = pydantic_model_creator(Author, name="Author")
+Author_Pydantic = pydantic_model_creator(Author, name="Author", exclude=("image",))

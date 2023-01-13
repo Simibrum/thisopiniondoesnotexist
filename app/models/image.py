@@ -2,6 +2,8 @@
 from tortoise.models import Model
 from tortoise import fields
 from tortoise.contrib.pydantic import pydantic_model_creator
+from pydantic import root_validator
+import base64
 
 
 class Image(Model):

@@ -5,6 +5,7 @@ import io
 import warnings
 import random
 from PIL import Image
+from typing import Optional
 from stability_sdk import client
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 
@@ -71,3 +72,18 @@ class ImageGenerator:
                     # Add generated image and seed to results list
                     results.append((img, artifact.seed))
         return results
+
+    def generate_image_binary(self, prompt: str, width: int = 512, height: int = 512) -> Optional[bytes]:
+        """Get an image from a prompt and return the image binary."""
+        # Set up our initial generation parameters.
+        answers = self.client.generate(
+            prompt=prompt,
+            width=width,  # Generation width
+            height=height  # Generation height
+        )
+        for resp in answers:
+            for artifact in resp.artifacts:
+                if artifact.type == generation.ARTIFACT_IMAGE:
+                    return artifact.binary
+        return None
+

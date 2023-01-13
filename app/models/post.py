@@ -19,6 +19,7 @@ class Post(Model):
 
     class Meta:
         """Meta class."""
+        # default_connection = "main_db"
         table = "posts"
 
     def __str__(self):

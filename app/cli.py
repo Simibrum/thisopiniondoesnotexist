@@ -5,6 +5,8 @@ from tortoise import Tortoise
 from app.logger import logger
 from app.db.init_db import init
 from app.backend.generators.author_generation import populate_authors
+from app.backend.generators.post_generation import populate_post
+from app.utils import get_current_date
 
 
 @click.group()
@@ -43,9 +45,28 @@ def add_authors(num_authors: int = 10):
     asyncio.run(Tortoise.close_connections())
 
 
+@click.command()
+@click.option("--date", default=get_current_date(), help="Date for the post.")
+@click.option("--topics", help="Topics for the post.")
+@click.option("--num_paragraphs", default=6, help="Number of paragraphs for the post.")
+def add_post(date: str, topics: str, num_paragraphs: int):
+    """Populate the database with a post."""
+    if not date:
+        date = get_current_date()
+    # Connecting to DB
+    logger.info("Connecting to database...")
+    asyncio.run(init())
+    # Adding post
+    logger.info(f"Adding post on {topics} from command line...")
+    asyncio.run(populate_post(date, topics, num_paragraphs))
+    logger.info("Done!")
+    asyncio.run(Tortoise.close_connections())
+
+
 cli.add_command(test)
 cli.add_command(generate_schemas)
 cli.add_command(add_authors)
+cli.add_command(add_post)
 
 if __name__ == "__main__":
     cli()

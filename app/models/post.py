@@ -16,6 +16,9 @@ class Post(Model):
     title = fields.CharField(max_length=255)
     content = fields.TextField()
     published = fields.BooleanField(default=False)
+    author = fields.ForeignKeyField("models.Author", related_name="posts")
+    lead_image = fields.ForeignKeyField("models.Image", related_name="lead_image", null=True)
+    body_image = fields.ForeignKeyField("models.Image", related_name="body_image", null=True)
 
     class Meta:
         """Meta class."""

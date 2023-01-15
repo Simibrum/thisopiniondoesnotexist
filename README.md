@@ -58,7 +58,15 @@ python -m app.cli add-authors --num_authors 1
 The variable `--num-authors` is the number of authors to add to the database. 
 It defaults to 10 if not supplied.
 
+## Adding Posts
 
+You can add posts to the database by running the following command:
+
+```bash
+python -m app.cli add-post --date "13 January 2023" --topics "politics,technology" \
+--num_paragraphs 4
+```
+```
 
 Resources:
 * [FastAPI](https://fastapi.tiangolo.com/)

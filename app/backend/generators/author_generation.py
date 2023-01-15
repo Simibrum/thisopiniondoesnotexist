@@ -33,6 +33,12 @@ Use note-like language with specific points.
 Alt text: 
 """
 
+summarise_author_prompt = f"""\
+Summarize this biography in 10 key words or phrase or less, include the age in the summary:
+
+{{}}
+"""
+
 
 def generate_authors(num_authors: int = 10) -> List[Tuple[str, int, str]]:
     """Generate a set of authors and output as a list of tuples with (name, age, gender)."""
@@ -107,3 +113,11 @@ async def populate_authors(num_authors: int = 10):
         await db_author.save()
     logger.info("Done!")
     return True
+
+
+def summarise_author(author: Author) -> str:
+    """Summarise the author's bio."""
+    prompt = summarise_author_prompt.format(author.bio)
+    generator = TextGenerator()
+    generated_text = generator.complete(prompt, max_tokens=128)
+    return generated_text

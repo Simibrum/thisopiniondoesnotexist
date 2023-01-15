@@ -1,6 +1,10 @@
 """Miscellaneous utility functions."""
 
 import os
+import re
+from dateutil import parser
+from dateutil import tz
+from datetime import datetime
 
 
 def load_env_vars(path):
@@ -18,3 +22,26 @@ def load_env_vars(path):
                 if var and value:
                     # Set the environment variable
                     os.environ[var] = value
+
+
+def get_date_components(date_string: str) -> (int, int, int):
+    """Get the year, month and day from a date string."""
+    date_object = parser.parse(date_string)
+    return date_object.day, date_object.month, date_object.year
+
+
+def get_heading(string: str) -> str:
+    """Get the heading from a string using regex."""
+    regex = r"(?<=Title:).*(?=\n|\r)"
+    match = re.search(regex, string)
+    if match:
+        return match.group(0).strip()
+    else:
+        return ""
+
+
+def get_current_date() -> str:
+    """Get the current date in a string format."""
+    now = datetime.now(tz.tzlocal())
+    formatted_date = now.strftime("%-d %B %Y")
+    return formatted_date

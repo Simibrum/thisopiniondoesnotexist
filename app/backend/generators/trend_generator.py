@@ -5,13 +5,6 @@ from app.models import Trends
 from app.backend.google_bigquery import GoogleTrends
 
 
-premier_league_teams = [
-    "Arsenal", "Aston Villa", "Brighton & Hove", "Burnley", "Chelsea", "Crystal Palace", "Everton",
-    "Leeds United", "Leicester City", "Liverpool", "Manchester City", "Manchester United", "Newcastle United",
-    "Norwich City", "Southampton", "Tottenham Hotspur", "Watford", "West Ham", "Wolves"
-]
-
-
 async def populate_uk_trends_from_google(period_days: int = 7):
     """Function to populate the trends table from Google for the UK.
 

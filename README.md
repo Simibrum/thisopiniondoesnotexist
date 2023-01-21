@@ -36,6 +36,14 @@ Then after making any changes to the models run the following to generate a migr
 aerich migrate --name "migration name"
 aerich upgrade
 ```
+## Getting Trends from Google Trends
+
+To get the trends from Google Trends, run the following command:
+```bash
+python -m app.cli get-trends --period_days 1
+```
+The `period_days` argument is optional and defaults to 7, i.e. the last 7 days. 
+The trends are stored in the `trends` table in the database.
 
 ## Adding Authors
 
@@ -50,12 +58,25 @@ It defaults to 10 if not supplied.
 
 ## Adding Posts
 
-You can add posts to the database by running the following command:
+You can add posts to the database based on obtained trends by running the following command:
+
+```bash
+python -m app.cli posts-from-trends --num_posts 1 --overwrite False --num_paragraphs 3
+```
+* The variable `--num_posts` is the number of posts to add to the database. Set to a high number such as 999 to add a post for each day of trends data.
+* The variable `--overwrite` is a boolean that determines whether to overwrite existing posts. Set to `True` to overwrite existing posts.
+* The `--num_paragraphs` argument is the number of paragraphs to generate for the post. It defaults to 6 if not supplied.
+
+You can add individual posts to the database by running the following command:
 
 ```bash
 python -m app.cli add-post --date "13 January 2023" --topics "politics,technology" \
 --num_paragraphs 4
 ```
+
+* The `--date` argument is the date of the post. It defaults to the current date if not supplied.
+* The `--topics` argument is a comma separated list of topics. 
+* The `--num_paragraphs` argument is the number of paragraphs to generate for the post. It defaults to 6 if not supplied.
 
 ## Generating Markdown for GitHub Pages
 

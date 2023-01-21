@@ -6,6 +6,14 @@ from dateutil import parser
 from dateutil import tz
 from datetime import datetime
 
+# List of premier league teams - filter these out of the trends!
+premier_league_teams = [
+    "Arsenal", "Aston Villa", "Brighton & Hove", "Burnley", "Chelsea", "Crystal Palace", "Everton",
+    "Leeds United", "Leicester City", "Liverpool", "Manchester City", "Manchester United", "Man City",
+    "Man United", "Man U", "Newcastle United",
+    "Norwich City", "Southampton", "Tottenham Hotspur", "Watford", "West Ham", "Wolves"
+]
+
 
 def load_env_vars(path):
     """Load environment variables from a file."""

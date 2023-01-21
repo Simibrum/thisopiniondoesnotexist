@@ -105,3 +105,8 @@ Resources:
 * https://tortoise-orm.readthedocs.io/en/latest/examples/fastapi.html
 * https://medium.com/nerd-for-tech/python-tortoise-orm-integration-with-fastapi-c3751d248ce1
 * https://testdriven.io/blog/developing-a-single-page-app-with-fastapi-and-vuejs/
+
+## To Do
+-[ ] Build function to generate index page for posts and authors
+-[ ] Populate database with authors (10) and posts (for last 90 days)
+- [ ] Add automated chron job to run every day/week to add new posts

@@ -1,11 +1,12 @@
 
 # {{author.name}}
-{{author.age}} - {{author.gender}}\
+{{author.age}} - {{author.gender}}
 {% for paragraph in author.bio.split('\n\n') %}
 {{ paragraph }}
-{% endfor %}\
+{% endfor %}
 {% if image %}
 ![{{ author.photo_description }}](../images/{{ image.id }}.png)
+
 Caption: {{ image.caption }}
 {% endif %}
 

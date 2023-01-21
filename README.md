@@ -37,16 +37,6 @@ aerich migrate --name "migration name"
 aerich upgrade
 ```
 
-## Running the project
-
-You can use uvicorn to run the project:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-If the database does not exist, it will be created automatically.
-
 ## Adding Authors
 
 You can add authors to the database by running the following command:
@@ -66,7 +56,27 @@ You can add posts to the database by running the following command:
 python -m app.cli add-post --date "13 January 2023" --topics "politics,technology" \
 --num_paragraphs 4
 ```
+
+## Generating Markdown for GitHub Pages
+
+You can generate markdown files for GitHub Pages by running the following command:
+
+```bash
+python -m app.cli generate-markdown --overwrite False
 ```
+The optional `--overwrite` argument can be set to `True` to overwrite existing files.
+
+## Running a Webserver
+
+Alternatively you can use uvicorn to run a webserver.:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+If the database does not exist, it will be created automatically.
+
+## Resources
 
 Resources:
 * [FastAPI](https://fastapi.tiangolo.com/)

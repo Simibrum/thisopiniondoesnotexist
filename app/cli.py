@@ -7,6 +7,7 @@ from app.db.init_db import init
 from app.backend.generators.author_generation import populate_authors
 from app.backend.generators.post_generation import populate_post
 from app.backend.generators.trend_generator import populate_uk_trends_from_google
+from app.backend.generators.github_pages import save_images, generate_author_page_md, generate_post_md
 from app.utils import get_current_date
 
 
@@ -72,8 +73,30 @@ def get_trends(period_days: int = 7):
     logger.info("Connecting to database...")
     asyncio.run(init())
     # Adding post
-    logger.info(f"Gettings trends from command line...")
+    logger.info(f"Getting trends from command line...")
     asyncio.run(populate_uk_trends_from_google(period_days))
+    logger.info("Done!")
+    asyncio.run(Tortoise.close_connections())
+
+
+@click.command()
+@click.option("--overwrite", default=False, help="Overwrite existing files?")
+def generate_markdown(overwrite: bool = False):
+    """Generate markdown from the database for GitHub Pages. Saved in the docs folder."""
+    # Connecting to DB
+    logger.info("Connecting to database...")
+    asyncio.run(init())
+    # Saving images
+    logger.info(f"Saving images from command line...")
+    asyncio.run(save_images(overwrite))
+    logger.info("Done!")
+    # Generating author pages
+    logger.info(f"Generating author pages from command line...")
+    asyncio.run(generate_author_page_md(overwrite))
+    logger.info("Done!")
+    # Generating post pages
+    logger.info(f"Generating post pages from command line...")
+    asyncio.run(generate_post_md(overwrite))
     logger.info("Done!")
     asyncio.run(Tortoise.close_connections())
 
@@ -83,6 +106,7 @@ cli.add_command(generate_schemas)
 cli.add_command(add_authors)
 cli.add_command(add_post)
 cli.add_command(get_trends)
+cli.add_command(generate_markdown)
 
 if __name__ == "__main__":
     cli()

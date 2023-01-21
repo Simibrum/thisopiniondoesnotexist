@@ -56,7 +56,7 @@ def generate_paragraphs(plan: str, author_summary: str, num_paragraphs: int = 3)
     """Generate paragraphs for an article."""
     generator = TextGenerator()
     generated_text = list()
-    for para_num in range(num_paragraphs+1):
+    for para_num in range(1, num_paragraphs+1):
         logger.info(f"Generating paragraph {para_num}")
         prompt = paragraph_prompt.format(author_summary, plan, para_num)
         generated_text.append(generator.complete(prompt, max_tokens=1024))

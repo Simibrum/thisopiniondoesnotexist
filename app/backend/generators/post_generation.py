@@ -150,7 +150,7 @@ async def populate_post(
         if overwrite:
             logger.info("Found existing post, overwriting")
             post.title = title
-            post.paragraphs = paragraphs
+            post.content = paragraphs
             post.plan = plan
             post.author = author
             post.lead_image = lead_image
@@ -163,7 +163,7 @@ async def populate_post(
         logger.info("No existing post found, creating new post")
         post = await Post.create(
             title=title,
-            paragraphs=paragraphs,
+            content=paragraphs,
             plan=plan,
             author=author,
             day=day,

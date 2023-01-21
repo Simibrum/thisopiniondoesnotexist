@@ -12,6 +12,8 @@ class Post(Model):
     day = fields.IntField()
     month = fields.IntField()
     year = fields.IntField()
+    # Post plan
+    plan = fields.TextField(null=True)
     # Post data
     title = fields.CharField(max_length=255)
     content = fields.TextField()

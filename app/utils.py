@@ -2,6 +2,7 @@
 
 import os
 import re
+from typing import Tuple
 from dateutil import parser
 from dateutil import tz
 from datetime import datetime
@@ -41,11 +42,25 @@ def get_date_components(date_string: str) -> (int, int, int):
 def get_heading(string: str) -> str:
     """Get the heading from a string using regex."""
     regex = r"(?<=Title:).*(?=\n|\r)"
-    match = re.search(regex, string)
+    match = re.search(regex, string, re.MULTILINE)
     if match:
         return match.group(0).strip()
     else:
         return ""
+
+
+def get_alt_text(string: str) -> Tuple[str, str]:
+    """Get the lead and body alt text from a string using regex."""
+    regex = r"(?<=image \[alt text\]:).*(?=\n|\r|$)"
+    matches = re.findall(regex, string, re.MULTILINE)
+    if matches:
+        # Return the first and second matches as a tuple
+        try:
+            return matches[0].strip(), matches[1].strip()
+        except IndexError:
+            return "", ""
+    else:
+        return "", ""
 
 
 def get_current_date() -> str:

@@ -83,14 +83,15 @@ def get_trends(period_days: int = 7):
 @click.option("--num_posts", default=1, help="Number of posts to generate - set to 999 to generate all.")
 @click.option("--overwrite", default=False, help="Overwrite existing posts? True or false.")
 @click.option("--num_paragraphs", default=7, help="Number of days in the past to get trends (max 180)")
-def posts_from_trends(num_posts: int = 1, overwrite: bool = False, num_paragraphs: int = 6):
+@click.option("--with_images", default=True, help="Generate images for the posts? True or false.")
+def posts_from_trends(num_posts: int = 1, overwrite: bool = False, num_paragraphs: int = 6, with_images: bool = True):
     """Generate posts based on trends."""
     # Connecting to DB
     logger.info("Connecting to database...")
     asyncio.run(init())
     # Adding post
     logger.info(f"Getting trends from command line...")
-    asyncio.run(trends2posts(num_posts, overwrite, num_paragraphs))
+    asyncio.run(trends2posts(num_posts, overwrite, num_paragraphs, with_images))
     logger.info("Done!")
     asyncio.run(Tortoise.close_connections())
 

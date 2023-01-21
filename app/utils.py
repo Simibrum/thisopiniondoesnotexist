@@ -68,3 +68,10 @@ def get_current_date() -> str:
     now = datetime.now(tz.tzlocal())
     formatted_date = now.strftime("%-d %B %Y")
     return formatted_date
+
+
+def count_paragraphs_in_plan(plan: str) -> int:
+    """Count the number of paragraphs in a plan."""
+    regex = r"[pP]aragraph \d"
+    matches = re.findall(regex, plan)
+    return len(matches)

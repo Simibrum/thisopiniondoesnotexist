@@ -7,7 +7,7 @@ from app.backend.gpt import TextGenerator
 from app.models import Author, Post, Trends, Image
 from app.backend.generators.author_generation import summarise_author
 from app.backend.generators.image_generation import generate_article_images
-from app.utils import get_date_components, get_heading, premier_league_teams
+from app.utils import get_date_components, get_heading, premier_league_teams, count_paragraphs_in_plan
 
 plan_prompt = f"""/
 Write a outline plan for an online newspaper opinion article based on the information below. Set out the headings 
@@ -59,6 +59,14 @@ def generate_plan(author_summary: str, date: str, topics: str, num_paragraphs: i
 
 def generate_paragraphs(plan: str, author_summary: str, num_paragraphs: int = 5) -> str:
     """Generate paragraphs for an article."""
+    # Check for number of paragraphs in plan and set num_paragraphs to that
+    num_plan_paragraphs = count_paragraphs_in_plan(plan)
+    if num_plan_paragraphs != num_paragraphs:
+        logger.warning(
+            "Number of paragraphs in plan does not match number of paragraphs to generate."
+            "Using number of paragraphs in plan."
+        )
+        num_paragraphs = num_plan_paragraphs
     generator = TextGenerator()
     generated_text = list()
     for para_num in range(1, num_paragraphs+1):

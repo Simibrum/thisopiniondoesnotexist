@@ -12,7 +12,7 @@ def google_trends():
     # Check key values have loaded
     assert KEY_PATH
     # Create a GoogleTrends object
-    google_trends = GoogleTrends(KEY_PATH)
+    google_trends = GoogleTrends()
     return google_trends
 
 
@@ -39,4 +39,5 @@ def test_google_trends(google_trends):
     # Call the get_trending_topics method
     trending_topics = google_trends.get_trending_topics()
     assert trending_topics
+    # print(trending_topics)
     assert isinstance(trending_topics, dict)

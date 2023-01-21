@@ -60,3 +60,29 @@ async def get_author(request: Request, author_id: int):
         "author.html",
         {"request": request, "author": author, "image": image}
     )
+
+
+@app.get(
+    "/html/post/{post_id}", response_class=HTMLResponse, responses={404: {"model": HTTPNotFoundError}}
+)
+async def get_post(request: Request, post_id: int):
+    try:
+        db_post = await Post.get(id=post_id)
+    except DoesNotExist:
+        return templates.TemplateResponse(
+            "404.html",
+            {"request": request, "message": f"Post with id {post_id} not found"}
+        )
+    post = await Post_Pydantic.from_tortoise_orm(db_post)
+    """"
+    db_image = await db_author.photo
+    
+    if db_image:
+        image = await Image_Pydantic.from_tortoise_orm(db_image)
+    else:
+        image = None
+    """
+    return templates.TemplateResponse(
+        "post.html",
+        {"request": request, "post": post}
+    )

@@ -21,7 +21,7 @@ if not KEY_PATH:
 
 
 # Query the Google Trends dataset and get the top 5 trending topics for the last 7 days
-TREND_QUERY = """
+TREND_QUERY = f"""
     -- This query shows a list of the daily top Google Search terms for the UK.
     SELECT
        refresh_date AS Day,
@@ -32,7 +32,7 @@ TREND_QUERY = """
        country_code = "GB"
        AND rank <= 10
            -- Choose only the top term each day.
-       AND refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 WEEK)
+       AND refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL {{}} DAY)
            -- Filter to the last 2 weeks.
     GROUP BY Day, Top_Terms, rank
     ORDER BY Day, rank DESC
@@ -43,7 +43,7 @@ TREND_QUERY = """
 class GoogleTrends:
     """Class for Google Trends API access."""
 
-    def __init__(self, key_path):
+    def __init__(self):
         """Initialise the class."""
         credentials = service_account.Credentials.from_service_account_file(
             KEY_PATH, scopes=["https://www.googleapis.com/auth/cloud-platform"],
@@ -52,11 +52,26 @@ class GoogleTrends:
         self.client = bigquery.Client(credentials=credentials, project=credentials.project_id, )
         self.trend_query = TREND_QUERY
 
-    def get_trending_topics(self):
+    def get_trending_topics(self, period_days: int = 7):
         """Get the trending topics."""
-        query_job = self.client.query(self.trend_query)
-        results = query_job.result()
-        df = results.to_dataframe()
+        df = self.get_trending_topics_as_df(period_days)
         # Convert the dataframe to a dictionary
         df_dict = df.to_dict()
         return df_dict
+
+    def get_trending_topics_as_df(self, period_days: int = 7):
+        """Get the trending topics as a dataframe."""
+        query_job = self.client.query(self.trend_query.format(period_days))
+        results = query_job.result()
+        df = results.to_dataframe()
+        return df
+
+    def get_formatted_trending_topics(self, period_days: int = 7):
+        """Get the trending topics as a formatted string."""
+        df = self.get_trending_topics_as_df(period_days)
+        # Group the dataframe by day
+        grouped_df = df.groupby("Day")
+        # Group the top terms as a list
+        top_terms_arrays = grouped_df['Top_Terms'].apply(lambda x: x.values.tolist())
+        # Output as dict
+        return top_terms_arrays.to_dict()

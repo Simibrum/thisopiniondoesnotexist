@@ -59,6 +59,15 @@ async def test_author_model(in_memory_db):
 @pytest.mark.anyio
 async def test_post_model(in_memory_db):
     """Test the post model."""
+    # Create a new author
+    author = await Author.create(
+        name="Jane Austen",
+        age=35,
+        gender="Female",
+        bio="Jane Austen was an English novelist known for her six major novels.",
+        photo_description="A portrait of Jane Austen"
+    )
+    await author.save()
     # Create a new post
     post = await Post.create(
         day=date.today().day,
@@ -66,7 +75,8 @@ async def test_post_model(in_memory_db):
         year=date.today().year,
         title="Hello World",
         content="This is a test post.",
-        published=True
+        published=True,
+        author=author
     )
     await post.save()
 

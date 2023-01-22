@@ -2,6 +2,16 @@
 
 Using generative API to produce content that does not exist.
 
+## What is this?
+
+This is a project that uses a generative API to produce content that does not exist. 
+It generates a set of authors using GPT3.5 and a set of images using StabilityAI's DreamStudio.
+It then uses these author details and a set of synced Google trends for the UK to generate made-up opinion articles.
+
+It's a way to play around with generative APIs and see what they can do.
+
+Run some of the command line functions below to see what it does. Logging is enabled so you can see what's going on.
+
 ## Initialising the Project
 
 Create a `.env` file in the root directory of the project. The file should contain the following:
@@ -24,6 +34,28 @@ OPENAI_API_KEY=[YOUR API KEY]
 STABILITY_KEY=[YOUR KEY]
 ```
 
+## Setting up the Environment
+
+### Virtual Environment
+
+Run venv to create a virtual environment:
+
+```bash
+python3 -m venv venv
+```
+
+Activate the virtual environment (or configure as interpreter in your IDE):
+
+```bash
+source venv/bin/activate
+```
+
+Install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
 Aerich is used to handle database migrations. Run the code below to initialise. 
 ```bash
 aerich init -t app.db.config.TORTOISE_ORM
@@ -36,11 +68,20 @@ Then after making any changes to the models run the following to generate a migr
 aerich migrate --name "migration name"
 aerich upgrade
 ```
+
+### Docker
+
+There is also a Dockerfile included in the project. To build the image run the following command:
+
+```bash
+docker build -t thisopiniondoesnotexist .
+```
+
 ## Getting Trends from Google Trends
 
 To get the trends from Google Trends, run the following command:
 ```bash
-python -m app.cli get-trends --period_days 1
+python -m app.cli get-trends --period_days 7
 ```
 The `period_days` argument is optional and defaults to 7, i.e. the last 7 days. 
 The trends are stored in the `trends` table in the database.

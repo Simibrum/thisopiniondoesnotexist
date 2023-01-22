@@ -9,10 +9,12 @@ from datetime import datetime
 
 # List of premier league teams - filter these out of the trends!
 premier_league_teams = [
-    "Arsenal", "Aston Villa", "Brighton & Hove", "Burnley", "Chelsea", "Crystal Palace", "Everton",
+    "Arsenal", "Aston Villa", "Brighton", "Burnley", "Chelsea", "Crystal Palace", "Everton",
     "Leeds United", "Leicester City", "Liverpool", "Manchester City", "Manchester United", "Man City",
-    "Man United", "Man U", "Newcastle United",
-    "Norwich City", "Southampton", "Tottenham Hotspur", "Watford", "West Ham", "Wolves"
+    "Man United", "Man", "Newcastle United",
+    "Norwich City", "Southampton", "Tottenham Hotspur", "Watford", "West Ham", "Wolves", "Rangers", "Celtic",
+    "PSG", "Barcelona", "Real Madrid", "Bayern Munich", "Bayern", "Juventus", "AC Milan", "Inter Milan", "Lazio",
+    "Leipzig", "Premier League", "Bundesliga", "Liga", "Serie", "Ligue", "Champions League", "Europa League",
 ]
 
 
@@ -75,3 +77,19 @@ def count_paragraphs_in_plan(plan: str) -> int:
     regex = r"[pP]aragraph \d"
     matches = re.findall(regex, plan)
     return len(matches)
+
+
+def filter_out_football(topics: list) -> list:
+    """Filter out football topics."""
+    filtered_topics = []
+    single_word_football_teams = {w for team in premier_league_teams for w in team.split(" ")}
+    for topic in topics:
+        versus = topic.split(" vs ")
+        if len(versus) == 2:
+            if versus[0] in premier_league_teams and versus[1] in premier_league_teams:
+                continue
+        words = {w for w in topic.split(" ")}
+        # If intersection of words and football teams is empty, add to filtered topics
+        if not words.intersection(single_word_football_teams):
+            filtered_topics.append(topic)
+    return filtered_topics

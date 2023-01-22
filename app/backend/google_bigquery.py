@@ -32,8 +32,8 @@ TREND_QUERY = f"""
        country_code = "GB"
        AND rank <= 10
            -- Choose only the top term each day.
-       AND refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL {{}} DAY)
-           -- Filter to the last 2 weeks.
+       AND refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL {{}} WEEK)
+           -- Filter to the last X weeks.
     GROUP BY Day, Top_Terms, rank
     ORDER BY Day, rank DESC
        -- Show the days in reverse chronological order.

@@ -2,7 +2,7 @@ import os
 import tempfile
 import pytest
 
-from app.utils import load_env_vars, get_alt_text
+from app.utils import load_env_vars, get_alt_text, filter_out_football
 
 
 def test_load_env_vars(monkeypatch):
@@ -42,3 +42,16 @@ def test_get_alt_text():
     assert text[1] == """Group of female athletes celebrating victory, embracing each other. \
     Outdoor setting, warm lighting, smiling faces."""
 
+
+def test_filter_out_football():
+    topic_sets = [
+        ["Michelle Williams", "RB Leipzig vs Bayern", "Dani Alves"],
+        ["Expected", "Leeds United vs Cardiff City", "Kilmarnock vs Rangers"],
+        ["Wolves vs Liverpool", "Australian Open", "the Teachers Strike"],
+        ["Chelsea fc", "Michelle Heaton", "Teachers strike"]
+    ]
+    filtered_topic_sets = [filter_out_football(ts)  for ts in topic_sets]
+    assert filtered_topic_sets[0] == ["Michelle Williams", "Dani Alves"]
+    assert filtered_topic_sets[1] == ["Expected"]
+    assert filtered_topic_sets[2] == ["Australian Open", "the Teachers Strike"]
+    assert filtered_topic_sets[3] == ["Michelle Heaton", "Teachers strike"]

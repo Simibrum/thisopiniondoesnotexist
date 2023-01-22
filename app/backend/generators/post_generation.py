@@ -7,7 +7,8 @@ from app.backend.gpt import TextGenerator
 from app.models import Author, Post, Trends, Image
 from app.backend.generators.author_generation import summarise_author
 from app.backend.generators.image_generation import generate_article_images
-from app.utils import get_date_components, get_heading, premier_league_teams, count_paragraphs_in_plan
+from app.utils import get_date_components, get_heading, premier_league_teams, count_paragraphs_in_plan, \
+    filter_out_football
 
 plan_prompt = f"""/
 Write a outline plan for an online newspaper opinion article based on the information below. Set out the headings 
@@ -199,7 +200,7 @@ async def trends2posts(
             continue
         logger.info(f"Generating post for {trend_day.date}")
         # Exclude premier league teams from the topics
-        topics = [topic for topic in trend_day.trends if topic not in premier_league_teams]
+        topics = filter_out_football(trend_day.trends)
         # Pick 3 topics randomly
         topics = random.sample(topics, 3)
         # Join the topics into a string

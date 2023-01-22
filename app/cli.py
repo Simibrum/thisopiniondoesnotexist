@@ -7,7 +7,8 @@ from app.db.init_db import init
 from app.backend.generators.author_generation import populate_authors
 from app.backend.generators.post_generation import populate_post, trends2posts
 from app.backend.generators.trend_generator import populate_uk_trends_from_google
-from app.backend.generators.github_pages import save_images, generate_author_page_md, generate_post_md
+from app.backend.generators.github_pages import save_images, generate_author_page_md, generate_post_md, \
+    generate_index_md
 from app.utils import get_current_date
 
 
@@ -66,7 +67,7 @@ def add_post(date: str, topics: str, num_paragraphs: int):
 
 
 @click.command()
-@click.option("--period_days", default=7, help="Number of days in the past to get trends (max 180)")
+@click.option("--period_days", default=7, help="Number of days in the past to get trends (max 31)")
 def get_trends(period_days: int = 7):
     """Populate the database with trends."""
     # Connecting to DB
@@ -114,6 +115,10 @@ def generate_markdown(overwrite: bool = False):
     # Generating post pages
     logger.info(f"Generating post pages from command line...")
     asyncio.run(generate_post_md(overwrite))
+    logger.info("Done!")
+    # Generating index page
+    logger.info(f"Generating index page from command line...")
+    asyncio.run(generate_index_md())
     logger.info("Done!")
     asyncio.run(Tortoise.close_connections())
 

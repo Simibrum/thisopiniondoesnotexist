@@ -67,3 +67,22 @@ async def generate_post_md(overwrite=False):
             # Write the output to a file
             with open(f"{docs_path}/posts/{post.id}.md", "w") as f:
                 f.write(output)
+
+
+async def generate_index_md(overwrite: bool = True):
+    """Generate the index.md file."""
+    # Load the templates
+    env = Environment(loader=FileSystemLoader(templates_path))
+    template = env.get_template("index.md")
+    # Check for existing index.md file and overwrite if overwrite is True
+    if os.path.isfile(f"{docs_path}/index.md") and not overwrite:
+        return
+    else:
+        # Get Authors and Posts
+        authors = await Author.all()
+        posts = await Post.all()
+        # Render the template
+        output = template.render(posts=posts, authors=authors)
+        # Write the output to a file
+        with open(f"{docs_path}/index.md", "w") as f:
+            f.write(output)

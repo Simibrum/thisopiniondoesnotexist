@@ -7,7 +7,7 @@ from app.backend.generators.image_generation import generate_image
 
 initial_stats_prompt = f"""\
 Generate a table with the following information: name, age, gender 
-for {{}} people who are famous opinion writers for national 
+for {{}} people who are made-up famous opinion writers for national 
 newspapers of various types. 
 
 Include a balanced set of ages, nationalities, backgrounds and genders.

@@ -146,8 +146,19 @@ Resources:
 * https://tortoise-orm.readthedocs.io/en/latest/examples/fastapi.html
 * https://medium.com/nerd-for-tech/python-tortoise-orm-integration-with-fastapi-c3751d248ce1
 * https://testdriven.io/blog/developing-a-single-page-app-with-fastapi-and-vuejs/
+* https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+* https://dev.to/trentyang/how-to-setup-google-domain-for-github-pages-1p58
+
+### Domain Name Bonus
+
+Google Domains had one of the cheapest domain names for one year. 
+* To use a custom domain name follow 
+the instructions for setting up an apex domain on GitHub Pages help as above (adding a custom A record to 
+the Google Domain DNS settings - leave the first box blank, add the four IP addresses). 
+* Then add the CNAME
+record pointing to the username or organisation name (not the repo name).
 
 ## To Do
--[ ] Build function to generate index page for posts and authors
--[ ] Populate database with authors (10) and posts (for last 90 days)
+- [ ] Build function to generate index page for posts and authors
+- [ ] Populate database with authors (10) and posts (for last 90 days)
 - [ ] Add automated chron job to run every day/week to add new posts

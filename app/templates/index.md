@@ -14,6 +14,6 @@
 
 {% for post in posts %}
 {% if post.title %}
-* [{{ post.title }}](posts/{{ post.id }}.md)
+* [{{ post.year }}-{{ post.month }}-{{ post.day }} > {{ post.title }}](posts/{{ post.id }}.md)
 {% endif %}
 {% endfor %}

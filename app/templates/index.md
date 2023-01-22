@@ -7,11 +7,13 @@
 ## Authors
 
 {% for author in authors %}
-* [{{ author.name }}](../authors/{{ author.id }}.md)
+* [{{ author.name }}](authors/{{ author.id }}.md)
 {% endfor %}
 
 ## Posts
 
 {% for post in posts %}
-* [{{ post.title }}](../posts/{{ post.id }}.md)
+{% if post.title %}
+* [{{ post.title }}](posts/{{ post.id }}.md)
+{% endif %}
 {% endfor %}
